@@ -1,0 +1,118 @@
+#!/bin/bash
+
+# Get the current directory
+CURRENT_DIR=$(pwd)
+
+# Function to display messages with emojis
+info() {
+  echo -e "\e[1m\e[32m[✔] $1\e[0m"
+}
+
+error() {
+  echo -e "\e[1m\e[31m[✖] $1\e[0m"
+}
+
+# Check if Python 3 is installed
+python3 --version | grep -q "Python 3" || { error "Python 3 is required."; exit 1; }
+
+# Default virtual environment directory
+VENV_DIR="$CURRENT_DIR/venv"
+
+# Parse options
+while getopts ":v:" opt; do
+  case ${opt} in
+    v)
+      VENV_DIR=$OPTARG
+      ;;
+    \?)
+      error "Invalid option: -$OPTARG"
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+ACTION=$1
+shift
+
+# Create the virtual environment if it doesn't exist
+if [ ! -d "$VENV_DIR" ]; then
+  info "Creating virtual environment at $VENV_DIR..."
+  python3 -m venv "$VENV_DIR"
+fi
+
+# Activate the virtual environment
+source "$VENV_DIR/bin/activate"
+
+# Perform the specified action
+case $ACTION in
+  install)
+    if [ "$1" == "-r" ]; then
+      REQUIREMENTS_FILE=$2
+      if [ -f "$REQUIREMENTS_FILE" ]; then
+        info "Installing packages from $REQUIREMENTS_FILE..."
+        pip install -r "$REQUIREMENTS_FILE"
+        info "Packages installed successfully!"
+      else
+        error "Requirements file not found."
+        deactivate
+        exit 1
+      fi
+    else
+      PACKAGE=$1
+      info "Installing package $PACKAGE..."
+      pip install "$PACKAGE"
+      info "Package $PACKAGE installed successfully!"
+    fi
+    ;;
+  remove)
+    PACKAGE=$1
+    info "Removing package $PACKAGE..."
+    pip uninstall -y "$PACKAGE"
+    info "Package $PACKAGE removed successfully!"
+    ;;
+  list)
+    info "Listing installed packages..."
+    pip list
+    ;;
+  upgrade)
+    if [ "$1" == "-a" ]; then
+      info "Upgrading all packages..."
+      pip list --outdated --format=freeze | cut -d '=' -f 1 | xargs -n1 pip install -U
+      info "All packages upgraded successfully!"
+    else
+      PACKAGE=$1
+      info "Upgrading package $PACKAGE..."
+      pip install --upgrade "$PACKAGE"
+      info "Package $PACKAGE upgraded successfully!"
+    fi
+    ;;
+  freeze)
+    info "Generating requirements.txt..."
+    pip freeze > requirements.txt
+    info "Requirements file generated successfully!"
+    ;;
+  help)
+    echo "Usage: pipven [options] <action> [args]"
+    echo ""
+    echo "Options:"
+    echo "  -v, --venv      Specify the virtual environment directory (default: ./venv)"
+    echo ""
+    echo "Actions:"
+    echo "  install         Install a package or packages from a requirements file"
+    echo "  remove          Uninstall a package"
+    echo "  list            List installed packages"
+    echo "  upgrade         Upgrade a package or all packages (-a for all)"
+    echo "  freeze          Generate a requirements.txt file"
+    echo "  help            Display this help message"
+    ;;
+  *)
+    error "Invalid action. Use 'install', 'remove', 'list', 'upgrade', 'freeze', or 'help'."
+    deactivate
+    exit 1
+    ;;
+esac
+
+# Deactivate the virtual environment
+deactivate
+info "Virtual environment deactivated."
