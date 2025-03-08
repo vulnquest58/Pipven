@@ -27,8 +27,6 @@ You can download the `pipven` script directly from this GitHub repository:
 curl -o pipven https://raw.githubusercontent.com/vulnquest58/Pipven/refs/heads/main/pipven
 ```
 
-> Replace `yourusername` with the actual username of the repository owner.
-
 ### 2. Make it Executable
 
 After downloading the script, make it executable:
