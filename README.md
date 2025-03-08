@@ -101,8 +101,34 @@ Now, you can run `pipven` from anywhere in your terminal.
 ```
     pipven help
 ```
-    
+Example output:
 
+```
+Usage: pipven [options] <action> [args]
+
+Options:
+  -v, --venv      Specify the virtual environment directory (default: ./venv)
+
+Actions:
+  install         Install a package or packages from a requirements file
+  remove          Uninstall a package
+  list            List installed packages
+  upgrade         Upgrade a package or all packages
+  freeze          Generate a requirements.txt file
+  help            Display this help message
+```
+
+####  **Cross-Platform Compatibility**
+
+- Ensure the script works on both Unix-like systems (Linux, macOS) and Windows by using platform-independent commands or providing separate scripts for Windows.
+
+####  **Python Version Detection**
+
+- Check the Python version before creating the virtual environment to ensure compatibility:
+    
+```
+    python3 --version | grep -q "Python 3" || { error "Python 3 is required."; exit 1; }
+```
 ---
 
 ## Options
