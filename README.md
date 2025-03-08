@@ -24,7 +24,7 @@
 You can download the `pipven` script directly from this GitHub repository:
 
 ```
-curl -o pipven https://raw.githubusercontent.com/yourusername/pipven/main/pipven
+curl -o pipven /pipven
 ```
 
 > Replace `yourusername` with the actual username of the repository owner.
