@@ -19,20 +19,34 @@
 
 ## Installation
 
-1. **Save the Script** : Save the script as `pipven` in your project directory.
-    
-2. **Make it Executable** :
-    
+### 1. Download from GitHub
+
+You can download the `pipven` script directly from this GitHub repository:
+
 ```
-    chmod +x pipven
+curl -o pipven https://raw.githubusercontent.com/yourusername/pipven/main/pipven
 ```
-    
-3. **Move to PATH** : To use the script globally, move it to a directory in your system's `PATH`:
-    
+
+> Replace `yourusername` with the actual username of the repository owner.
+
+### 2. Make it Executable
+
+After downloading the script, make it executable:
+
 ```
-    sudo mv pipven /usr/local/bin/
+chmod +x pipven
 ```
-    
+
+### 3. Move to PATH
+
+To use the script globally, move it to a directory in your system's `PATH`:
+
+
+```
+sudo mv pipven /usr/local/bin/
+```
+
+Now, you can run `pipven` from anywhere in your terminal.
 
 ---
 
