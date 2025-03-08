@@ -193,5 +193,3 @@ This project is licensed under the [MIT License](https://github.com/vulnquest58/
 - Special thanks to contributors who help improve this script over time.
 
 ---
-
-This `README.md` provides a comprehensive overview of the script's functionality, usage, and key features, making it easy for users to understand and utilize `pipven` effectively.
